@@ -1,14 +1,26 @@
 fs = require('fs');
-let data = fs.readFileSync('Baboon.raw')
-let array = new Array(255)
+let data = fs.readFileSync('Lena.raw')
+let array = new Array(512)
 array.fill(0)
 let count = 0;
+let lastValue = 0
 
+/* 一般的方法
 for(let key in data){ //還沒跳脫最後那些東西
     let value = data[key]
     if(typeof value != 'number' || key == 'offset')
         continue
     array[value]++
+    count++
+}*/
+
+for(let key in data){ //還沒跳脫最後那些東西
+    let value = data[key]
+    if(typeof value != 'number' || key == 'offset')
+        continue
+    let t = value - lastValue
+    lastValue = value
+    array[t+256]++
     count++
 }
 

@@ -1,5 +1,5 @@
 fs = require('fs');
-let data = fs.readFileSync('Lena.raw')
+let data = fs.readFileSync('Baboon.raw')
 let data1 = fs.readFileSync('origin.bear')
 
 for(let key in data){ //還沒跳脫最後那些東西

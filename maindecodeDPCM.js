@@ -25,7 +25,7 @@ for(let key in data){ //每個byte 組回來 變成一個很長的string
     while(bin.length != 8){
         bin = '0'+bin
     }
-    longSting+= bin
+    longSting += bin
     bufferIndex++
 }
 
@@ -36,14 +36,17 @@ let tree = [], readCode = ''
 let iterator = NYT
 tree.push(NYT)
 let decodeResult = []
+let lastValue = 0
 
-while(bitIndex < length){
+while(bitIndex < length || iterator.data != -1){    
     if(iterator.data == 'NYT' || iterator.data != -1){ //到leaf
         if(iterator.data == 'NYT'){ //到點
             while(readCode.length != 8 )
                 readCode += longSting.charAt(bitIndex++)
             let SymbalValue = parseInt(readCode, 2)
-            decodeResult.push(SymbalValue)
+            let TEMPTEMP = addition(lastValue,SymbalValue)
+            lastValue = TEMPTEMP
+            decodeResult.push(TEMPTEMP)
 
             let newRootNode = new Node(0, NYT.order ,-1,NYT.root,NYT)
             let thisNode = new Node(1, newRootNode.order - 1, SymbalValue ,newRootNode)
@@ -56,8 +59,11 @@ while(bitIndex < length){
             tree.push(newRootNode,thisNode)
             iterator = updateTree(newRootNode)//point iterator = root
             readCode = ''
-        }else{ //到NYT            
-            decodeResult.push(iterator.data)
+        }else{
+            let rr = iterator.data            
+            let TEMPTEMP = addition(lastValue,iterator.data)
+            decodeResult.push(TEMPTEMP)
+            lastValue = TEMPTEMP
             iterator = updateTree(iterator)
         }
     }    
@@ -68,6 +74,7 @@ while(bitIndex < length){
         iterator = iterator.right
     }
 }
+console.log(decodeResult.length)
 let HI = decodeResult.length
 var buffer = new Uint8Array(HI);
 
@@ -125,3 +132,35 @@ function updateTree(U){
     encodeing(U)
     return U
 }
+
+function addition(a,b){
+    a = dec2bin(a)
+    b = dec2bin(b)
+    let result = ''
+    let carry = '0'
+    for(let i = 7 ; i >= 0 ; i--){
+        let temp = a.charAt(i) + b.charAt(i) + carry
+        var count = (temp.match(/1/g) || []).length;
+        if(count == 0){
+            result = '0' + result 
+            carry = '0'
+        }else if(count ==1){
+            result = '1' + result 
+            carry = '0'
+        }else if(count ==2){
+            result = '0' + result 
+            carry = '1'
+        }else if(count ==3){
+            result = '1' + result 
+            carry = '1'
+        }
+    }
+    return parseInt(result,2)
+}
+
+function dec2bin(dec){//10進位轉2進為
+    let temp = (dec >>> 0).toString(2);
+    while(temp.length!=8)
+        temp = '0' +temp
+    return temp
+} 

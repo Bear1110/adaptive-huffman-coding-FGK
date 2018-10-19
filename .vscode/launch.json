@@ -8,8 +8,9 @@
             "type": "node",
             "request": "launch",
             "name": "啟動程式",
-            //"program": "${workspaceFolder}/maindecode.js"
-            "program": "${workspaceFolder}/calculate.js"
+            //"program": "${workspaceFolder}/mainDPCM.js"
+            "program": "${workspaceFolder}/maindecodeDPCM.js"
+            //"program": "${workspaceFolder}/calculate.js"
         }
     ]
 }

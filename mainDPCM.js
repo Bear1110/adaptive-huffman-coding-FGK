@@ -14,7 +14,7 @@ class Node {
     }
 }
 
-let data = fs.readFileSync('Lena.raw')
+let data = fs.readFileSync('Baboon.raw')
 //let data = ['b','o','o','k','k','e','e','p','e','r']
 //let data = ['a','a','r','d','v']
 //let data = [5,5,128,9,10,9,8,7,6,5,1,3,4]
@@ -32,15 +32,21 @@ for(let key in data){ //還沒跳脫最後那些東西
         continue
     let TEMPTEMP = value - lastValue
     lastValue = value
-    console.log(TEMPTEMP , lastValue)
+    if(key == 262143){
+        console.log()
+    }
     if( seen.indexOf(TEMPTEMP) == -1){ // 第一次看到這個symbol(data) (~1 + 1 >>> 0).toString(2)
-        let temp = TEMPTEMP.toString(2)
-        while(temp.length != 8){
-            temp = '0'+temp
+        let temp
+        if(TEMPTEMP >= 0){
+            temp = TEMPTEMP.toString(2)
+            while(temp.length != 8)
+                temp = '0'+temp
+        }else{
+            temp = (~(-TEMPTEMP) + 1 >>> 0).toString(2).substring(24)
         }
         output += NYT.code + temp
 
-        let newRootNode = new Node(0, NYT.order ,-1,NYT.root,NYT)
+        let newRootNode = new Node(0, NYT.order ,-9999,NYT.root,NYT)
         let thisNode = new Node(1, newRootNode.order - 1, TEMPTEMP ,newRootNode)
         newRootNode.right = thisNode
         if(newRootNode.root)
@@ -66,8 +72,10 @@ for(let key in data){ //還沒跳脫最後那些東西
         continue
     output += symbalTable[value]
 }*/
-
-var buffer = new Uint8Array(output.length / 8 +1);
+let gg = 0
+if(output.length % 8 !=0)
+    gg++
+var buffer = new Uint8Array(output.length / 8 +gg)
 let temp = '', bufferIndex = 0
 for(let i = 0; i < output.length ; i++){
     let thisBit = output.charAt(i)
@@ -83,19 +91,8 @@ if(temp != ''){ // flush
     }
     buffer[bufferIndex] = parseInt(temp, 2)
 }
+
 fs.writeFileSync('afterCompress.bear', buffer)
-/*
-function table(tree){
-    let array = []
-    let root = tree.filter(e => e.root == undefined)[0]
-    encodeing(root)
-    tree.forEach(e => {
-        if(e.data != -1 && e.data != 'NYT'){
-            array[e.data] = e.code
-        }
-    });
-    return array
-}*/
 
 function encodeing(node){
     if(node.left != undefined){
