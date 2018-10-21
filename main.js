@@ -54,14 +54,6 @@ for(let key in data){ //還沒跳脫最後那些東西
     }
 }
 
-//let symbalTable = table(tree)
-/*
-for(let key in data){ //還沒跳脫最後那些東西
-    let value = data[key]
-    if(typeof value == 'function')
-        continue
-    output += symbalTable[value]
-}*/
 let gg = 0
 if(output.length % 8 !=0)
     gg++
@@ -82,18 +74,6 @@ if(temp != ''){ // flush
     buffer[bufferIndex] = parseInt(temp, 2)
 }
 fs.writeFileSync('afterCompress.bear', buffer)
-/*
-function table(tree){
-    let array = []
-    let root = tree.filter(e => e.root == undefined)[0]
-    encodeing(root)
-    tree.forEach(e => {
-        if(e.data != -1 && e.data != 'NYT'){
-            array[e.data] = e.code
-        }
-    });
-    return array
-}*/
 
 function encodeing(node){
     if(node.left != undefined){
@@ -105,8 +85,6 @@ function encodeing(node){
         encodeing(node.right)
     }
 }
-
-
 
 function updateTree(U){
     while(U.root != undefined ){ // U != root
