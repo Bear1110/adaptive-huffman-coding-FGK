@@ -26,10 +26,9 @@ let NYT = new Node(0,256,"NYT")
 let lastValue = 0
 tree.push(NYT)
 
-for(let key in data){ //還沒跳脫最後那些東西
-    let value = data[key]
-    if(typeof value != 'number' || key == 'offset')
-        continue
+let len = data.length
+for(let i = 0 ; i < len ; i++){
+    let value = data[i]
     let TEMPTEMP = value - lastValue
     lastValue = value
     if(key == 262143){
