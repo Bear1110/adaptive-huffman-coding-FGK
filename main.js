@@ -24,11 +24,9 @@ let seen = []
 let output = ''
 let NYT = new Node(0,256,"NYT")
 tree.push(NYT)
-
-for(let key in data){ //還沒跳脫最後那些東西
-    let value = data[key]
-    if(typeof value != 'number' || key == 'offset')
-        continue
+let len = data.length
+for(let i = 0 ; i < len ; i++){
+    let value = data[i]
     if( seen.indexOf(value) == -1){ // 第一次看到這個symbol(data)
         let temp = value.toString(2)
         while(temp.length != 8){

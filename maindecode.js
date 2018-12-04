@@ -11,22 +11,15 @@ class Node {
         this.code = ''
     }
 }
-
 let data = fs.readFileSync('afterCompress.bear')
-
-let dataLength = data.length
-let bufferIndex = 0
+let len = data.length
 let longSting = ''
-for(let key in data){ //每個byte 組回來 變成一個很長的string
-    let value = data[key]
-    if(typeof value != 'number' || key == 'offset')
-        continue
-    bin = value.toString(2);
+for(let i = 0 ; i < len ; i++){  //每個byte 組回來 變成一個很長的string
+    let bin = data[i].toString(2);
     while(bin.length != 8){
         bin = '0'+bin
     }
-    longSting+= bin
-    bufferIndex++
+    longSting += bin
 }
 
 let length = longSting.length
