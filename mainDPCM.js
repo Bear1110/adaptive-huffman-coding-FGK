@@ -71,10 +71,7 @@ for(let key in data){ //還沒跳脫最後那些東西
         continue
     output += symbalTable[value]
 }*/
-let gg = 0
-if(output.length % 8 !=0)
-    gg++
-var buffer = new Uint8Array(output.length / 8 +gg)
+var buffer = new Uint8Array(Math.ceil(output.length/8))
 let temp = '', bufferIndex = 0
 for(let i = 0; i < output.length ; i++){
     let thisBit = output.charAt(i)
