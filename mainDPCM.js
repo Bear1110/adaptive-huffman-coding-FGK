@@ -31,9 +31,6 @@ for(let i = 0 ; i < len ; i++){
     let value = data[i]
     let TEMPTEMP = value - lastValue
     lastValue = value
-    if(key == 262143){
-        console.log()
-    }
     if( seen.indexOf(TEMPTEMP) == -1){ // 第一次看到這個symbol(data) (~1 + 1 >>> 0).toString(2)
         let temp
         if(TEMPTEMP >= 0){
@@ -82,9 +79,7 @@ for(let i = 0; i < output.length ; i++){
     }
 }
 if(temp != ''){ // flush
-    while(temp.length != 8){
-        temp += '1'
-    }
+    temp += new Array(8-temp.length+1).join("1") // 補 1在結尾
     buffer[bufferIndex] = parseInt(temp, 2)
 }
 
@@ -113,7 +108,7 @@ function updateTree(U){
             })
         }
         if(result.length > 0 ){
-            if(result[0] != U.root){// 預防一開始就出現重複的東西 例如一開始就讀到 1,1              
+            if(result[0] != U.root){// 預防一開始就出現重複的東西 例如一開始就讀到 1,1
                 result = result.length > 1 ? max : result[0]
                 let target = tree[tree.indexOf(result)]
                 if(target.root.left == target && U.root.left == U){
